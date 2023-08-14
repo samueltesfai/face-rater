@@ -34,6 +34,12 @@ function Home() {
         tensor = tensor.div(tf.scalar(127.5)).sub(tf.scalar(1.0)).expandDims();
 
         tensor.print(true);
+        const tensorMean = tensor.mean();
+        const tensorMax = tensor.max();
+        const tensorMin = tensor.min();
+        tensorMean.data().then(meanValue => console.log(`Mean: ${meanValue}`));
+        tensorMax.data().then(maxValue => console.log(`Max: ${maxValue}`));
+        tensorMin.data().then(minValue => console.log(`Min: ${minValue}`));
 
 
         return tensor;
