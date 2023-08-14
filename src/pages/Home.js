@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import { Container, Button, Form, Image, Row, Col, Navbar, Nav, Alert } from 'react-bootstrap';
+import React, { useRef, useState } from 'react';
+import { Container, Button, Form, Image as BootstrapImage, Row, Col, Navbar, Nav, Alert } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import axios from 'axios';
 import "../css/Home.css";
 import { Link } from 'react-router-dom';
+import * as tf from '@tensorflow/tfjs';
+import { loadGraphModel } from '@tensorflow/tfjs-converter';
 
 
-const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+
 
 function Home() {
     const [image, setImage] = useState(null);
@@ -14,8 +15,29 @@ function Home() {
     const [result, setResult] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const model = useRef(null);
+
+    const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+
+    const preprocessImage = async (imageSrc) => {
+        // Create an HTMLImageElement from the source
+        const img = new Image();
+        img.src = imageSrc;
+
+        await tf.nextFrame();  // Wait for the image to load
+
+        let tensor = tf.browser.fromPixels(img)
+            .resizeNearestNeighbor([224, 224])
+            .toFloat();
+
+        // Scale pixels between -1 and 1, sample-wise
+        tensor = tensor.div(tf.scalar(127.5)).sub(tf.scalar(1.0)).expandDims();
+
+        tensor.print(true);
 
 
+        return tensor;
+    };
 
     const handleImageChange = (event) => {
 
@@ -50,15 +72,29 @@ function Home() {
         const formData = new FormData();
         formData.append('file', image);
 
-        const url = 'https://5te9nx8fk1.execute-api.us-west-1.amazonaws.com';
+        //const url = 'https://5te9nx8fk1.execute-api.us-west-1.amazonaws.com';
 
         try {
-            const response = (await Promise.all([
-                axios.post(url, formData),
-                sleep(5000),
-            ]))[0];
+            if (!model.current) {
+                const MODEL_URL = `${process.env.PUBLIC_URL}/refinedjs_model2-1/model.json`;
+                const loadedModel = await loadGraphModel(MODEL_URL);
+                model.current = loadedModel;
+                console.log("Model Loaded")
+            }
+
+            const prediction = preprocessImage(imagePreview).then(
+                (preprocessedImage) => model.current.predict(preprocessedImage).dataSync()[0]
+            )
+
+            const score = (
+                await Promise.all([
+                    prediction,
+                    sleep(5000)
+                ])
+            )[0];
+
             setResult(
-                Math.round(100 * (1 + (9 * response.data.score))) / 100
+                Math.round(100 * (1 + (9 * score))) / 100
             );
             setError(null);
         } catch (err) {
@@ -143,7 +179,7 @@ function Home() {
 
 
                         {imagePreview ? (
-                            <Image src={imagePreview} alt="Uploaded Preview" thumbnail />
+                            <BootstrapImage src={imagePreview} alt="Uploaded Preview" thumbnail />
                         ) : (
                             <div style={{ border: "1px dashed gray", padding: "60px 0", fontSize: "16px" }}>
                                 Upload an Image
