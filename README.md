@@ -1,70 +1,47 @@
-# Getting Started with Create React App
+# Face Rating Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This application is designed to rate faces using a machine learning model. It's crafted with fun in mind, and while it showcases some advanced techniques and impressive results, it's important to remember that the scores shouldn't be taken too seriously.
+ 
+[Click here to view website](https://samueltesfai.github.io/face-rater)
 
-## Available Scripts
+## Model Development
 
-In the project directory, you can run:
+### ResNet Architecture
 
-### `npm start`
+The core of our application is a model that utilizes the ResNet architecture, specifically `ResNet50V2`, as a feature extractor. This deep neural network is known for its capability to capture intricate patterns and details, making it ideal for our face-rating task.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Hyperparameter Tuning
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Hyperparameter tuning was conducted in two main stages using Bayesian optimization:
 
-### `npm test`
+1. **Broad Search:** The initial stage was a broad exploration of hyperparameters. This process was specifically to determine the optimal number of dense layers on top of the frozen ResNet model, the units in each of those layers, and whether to include dropout layers or not.
+  
+2. **Focused Search:** Based on the insights from the initial stage, a more focused search was conducted within a narrowed hyperparameter space.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The models from different configurations were trained up to 20 epochs. From the collective results, it became evident that a smaller number of layers on top of the ResNet model were favorable. Some of the best configurations were hand-picked and tested for up to 100 epochs, and the best performing one was picked as the final model. The final model employed by the app has a single dense layer with 64 units appended to the ResNet model, followed by the output layer.
 
-### `npm run build`
+### Training Data
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The model was trained using the [Chicago Face Database (CFD)](https://www.chicagofaces.org/), which comprises images of 597 unique individuals from diverse ethnic backgrounds. This dataset ensures a robust and varied training set. Each image used from this dataset showcases a neutral facial expression, ensuring consistency. Notably, no data augmentation was performed, retaining the original essence of the dataset. Not only is there potential in enriching the dataset with data augmentation, but also by leveraging other image sets within the CFD, presenting a promising direction for future enhancements.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Performance
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The results of our model testing phase were impressive. On average, the model achieved a Mean Absolute Error (MAE) of 0.0083. To provide context for this number, consider that a naive regressor—always predicting the mean value—produces an MAE of about 0.10 on the test set. Therefore, our model, predicting within the range of 0 to 1, has an average deviation of just 0.83%. This speaks to the efficacy of both the architecture chosen and the hyperparameter tuning process.
 
-### `npm run eject`
+However, it's crucial to understand that this model was trained on a relatively modest dataset. The labels for the images came from the average views of about 30 participants. Thus, while it's fun and intriguing, the model is not definitive or all-encompassing in its ratings.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Application Architecture
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Back-End
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Constructed using the Flask framework, our back-end is at the heart of the application. It manages the core computation of generating face rating scores. Flask, known for its lightweight nature and scalability, integrates smoothly with the machine learning libraries used in the model.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### AWS Elastic Beanstalk & API Gateway
 
-## Learn More
+For a seamless deployment and smooth connectivity between the front and back ends of our application, AWS Elastic Beanstalk was instrumental. It simplified the management and deployment processes, abstracting away infrastructure complexities.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+To further bridge the gap between the front-end and back-end, AWS's API Gateway was used. This ensured that data could be transferred back and forth securely and efficiently.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Front-End
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Crafted with React, our front-end delivers an interactive and dynamic user experience. Integration with Bootstrap guarantees a responsive and visually appealing interface, making the application accessible from any device. GitHub pages hosts the entire front-end, ensuring reliable and quick access for users.
