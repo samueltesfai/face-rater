@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/face-rater/static/css/main.409a6eea.css",
-    "main.js": "/face-rater/static/js/main.cbe82176.js",
+    "main.js": "/face-rater/static/js/main.506862c8.js",
     "index.html": "/face-rater/index.html",
     "main.409a6eea.css.map": "/face-rater/static/css/main.409a6eea.css.map",
-    "main.cbe82176.js.map": "/face-rater/static/js/main.cbe82176.js.map"
+    "main.506862c8.js.map": "/face-rater/static/js/main.506862c8.js.map"
   },
   "entrypoints": [
     "static/css/main.409a6eea.css",
-    "static/js/main.cbe82176.js"
+    "static/js/main.506862c8.js"
   ]
 }
