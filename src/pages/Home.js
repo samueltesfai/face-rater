@@ -171,7 +171,7 @@ function Home() {
 
                         {/* Note to the user */}
                         <Alert variant="info">
-                            For best results, please upload an image of just your face with a neutral facial expression.
+                            Scores reported on a scale from 1 to 10. For best results, please upload an image of ONLY your face with a neutral facial expression.
                         </Alert>
 
 

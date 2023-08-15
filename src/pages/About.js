@@ -37,7 +37,7 @@ function About() {
                             The model's training dataset is derived from the <a href='https://www.chicagofaces.org/'> Chicago Face Database (CFD)</a>, encompassing images of 597 unique individuals from various ethnic backgrounds. Notably, each model showcases neutral facial expressions. The test results of the model were impressive, with a minor deviation of just 0.83% on average.
                         </p>
                         <p>
-                            <span style={{ fontWeight: 'bold' }}>However, it's important to note:</span> while our model showcases remarkable results, it's crafted with fun in mind. The scores shouldn't be taken too seriously. The model was trained on a relatively modest dataset and the labels came from an average of about 30 participants' views. This project aims to intrigue, rather than deliver objective results.
+                            <span style={{ fontWeight: 'bold', color: 'red', backgroundColor: 'yellow' }}>Note:</span> While our model showcases remarkable results, the scores shouldn't be taken too seriously. The model was trained on a relatively modest dataset and the labels came from an average of about 30 participants' views— at best, the model is predicting how this specific group of people might rate you. Futhermore, attractiveness is inherently subjective and varies between cultures, societies, and individuals. Therefore it is misleading to train a machine learning model to quantify attractiveness, which essentially is generalizing a subjective concept. This project aims to intrigue and demonstrate the power of computer vision in deep learning, rather than deliver objective results.
                         </p>
 
                         <h3>Application Architecture</h3>
