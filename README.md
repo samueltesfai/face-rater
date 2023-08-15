@@ -1,8 +1,12 @@
 # Face Rating Application
 
 This application is designed to rate faces using a machine learning model. It's crafted with fun in mind, and while it showcases some advanced techniques and impressive results, it's important to remember that the scores shouldn't be taken too seriously.
- 
+
+![Imgur](https://s11.gifyu.com/images/ScJHD.gif)
+
 [Click here to view website](https://samueltesfai.github.io/face-rater)
+
+Refer to the [master branch](https://github.com/samueltesfai/face-rater/tree/master) for source code.
 
 ## Model Development
 
