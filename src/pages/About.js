@@ -42,8 +42,9 @@ function About() {
 
                         <h3>Application Architecture</h3>
                         <p>
-                            The back-end framework, engineered using Flask, handles the core computation of generating the face rating score. To ensure a seamless deployment and connectivity between the front-end and back-end, AWS Elastic Beanstalk and API Gateway were employed. The API Gateway serves as a reliable bridge, facilitating the communication between the React-based front-end and Flask-powered back-end. On the front-end, React and Bootstrap combine to offer users an interactive and responsive experience, hosted on GitHub pages.
+                            Previously, the application employed a back-end framework engineered using Flask for the core computation of generating the face rating score. This was seamlessly deployed and connected to the front-end using AWS Elastic Beanstalk and API Gateway. The API Gateway served as a bridge to facilitate the communication between the React-based front-end and the Flask-powered back-end. However, to enhance security and performance, we transitioned to leveraging TensorFlow.js on the client side, eliminating the need for the aforementioned back-end architecture. Now, all processing happens directly in the user's browser, ensuring improved security and faster response times. On the front-end, React and Bootstrap continue to offer users an interactive and responsive experience, hosted on GitHub pages.
                         </p>
+
 
                         <h3>Contact Information</h3>
                         <p>If you find this project intriguing or have any queries, you're welcome to reach out:</p>

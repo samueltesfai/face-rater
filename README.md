@@ -32,15 +32,11 @@ However, it's crucial to understand that this model was trained on a relatively 
 
 ## Application Architecture
 
-### Back-End
+### Client-Side Computation with TensorFlow.js
 
-Constructed using the Flask framework, our back-end is at the heart of the application. It manages the core computation of generating face rating scores. Flask, known for its lightweight nature and scalability, integrates smoothly with the machine learning libraries used in the model.
+We utilize TensorFlow.js on the client side, allowing for direct processing within the user's browser. This shift enhances security, reduces latency, and maintains the integrity of our face rating scores computation without the need for a traditional back-end.
 
-### AWS Elastic Beanstalk & API Gateway
-
-For a seamless deployment and smooth connectivity between the front and back ends of our application, AWS Elastic Beanstalk was instrumental. It simplified the management and deployment processes, abstracting away infrastructure complexities.
-
-To further bridge the gap between the front-end and back-end, AWS's API Gateway was used. This ensured that data could be transferred back and forth securely and efficiently.
+With the adoption of TensorFlow.js, the previously used AWS Elastic Beanstalk and API Gateway have been eliminated, leading to a more streamlined architecture and improved user experience.
 
 ### Front-End
 

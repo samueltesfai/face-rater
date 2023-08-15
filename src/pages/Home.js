@@ -7,8 +7,6 @@ import * as tf from '@tensorflow/tfjs';
 import { loadGraphModel } from '@tensorflow/tfjs-converter';
 
 
-
-
 function Home() {
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
@@ -28,18 +26,11 @@ function Home() {
 
         let tensor = tf.browser.fromPixels(img)
             .resizeNearestNeighbor([224, 224])
-            .toFloat();
+            .toFloat()
+
 
         // Scale pixels between -1 and 1, sample-wise
         tensor = tensor.div(tf.scalar(127.5)).sub(tf.scalar(1.0)).expandDims();
-
-        tensor.print(true);
-        const tensorMean = tensor.mean();
-        const tensorMax = tensor.max();
-        const tensorMin = tensor.min();
-        tensorMean.data().then(meanValue => console.log(`Mean: ${meanValue}`));
-        tensorMax.data().then(maxValue => console.log(`Max: ${maxValue}`));
-        tensorMin.data().then(minValue => console.log(`Min: ${minValue}`));
 
 
         return tensor;
@@ -85,7 +76,7 @@ function Home() {
                 const MODEL_URL = `${process.env.PUBLIC_URL}/refinedjs_model2-1/model.json`;
                 const loadedModel = await loadGraphModel(MODEL_URL);
                 model.current = loadedModel;
-                console.log("Model Loaded")
+                //console.log("Model Loaded")
             }
 
             const prediction = preprocessImage(imagePreview).then(
@@ -95,7 +86,7 @@ function Home() {
             const score = (
                 await Promise.all([
                     prediction,
-                    sleep(5000)
+                    sleep(5000),
                 ])
             )[0];
 
